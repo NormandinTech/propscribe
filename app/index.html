@@ -632,7 +632,7 @@ body {
       <button class="btn-gold" id="activate-btn" onclick="activateKey()">Activate</button>
     </div>
     <div class="gate-error" id="gate-error">Invalid key. Check your purchase confirmation email.</div>
-    <p class="gate-link">No key? <a href="https://sikariam.gumroad.com/l/liwqfr" target="_blank">Get PropScribe →</a></p>
+    <p class="gate-link">No key? <a href="https://propscribe.gumroad.com" target="_blank">Get PropScribe →</a></p>
     <p class="gate-demo">Demo key: <code>PS-DEMO-00000000</code></p>
   </div>
 </div>
@@ -721,6 +721,66 @@ body {
             <label>Your writing samples (brand voice)</label>
             <textarea id="f-voice" rows="3" placeholder="Paste 2–3 examples of your previous listing descriptions here. PropScribe will match your exact writing style..."></textarea>
           </div>
+        </div>
+
+        <!-- STATE SELECTOR -->
+        <div class="field" style="margin-top:16px">
+          <label>Property state <span style="color:var(--gold);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em">Enhanced compliance</span></label>
+          <select id="f-state">
+            <option value="">Select state (recommended)</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California ★ Most expansive laws</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">Washington D.C. ★ Most expansive laws</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey ★ High penalties</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York ★ High penalties</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          <div id="state-note" style="font-size:11px;color:var(--text-3);margin-top:5px;line-height:1.5;display:none"></div>
         </div>
 
         <!-- CONTENT TYPE -->
@@ -817,7 +877,7 @@ body {
 
 <script>
 // ── CONFIG ──
-const API = 'https://propscribe.gridiq.ink'; // Update after Railway deploy
+const API = 'https://propscribe-api.up.railway.app'; // Update after Railway deploy
 const MONTH_KEY = `ps_gen_${new Date().getFullYear()}_${new Date().getMonth()}`;
 const TYPE_LABELS = {
   listing_description: 'Listing description',
@@ -1005,6 +1065,33 @@ function setType(btn) {
   selectedType = btn.dataset.type;
 }
 
+// ── STATE NOTE ──
+const STATE_NOTES = {
+  CA: 'California: 11 additional protected classes including source of income, age (40+), primary language, immigration status.',
+  NY: 'New York: Source of income strongly protected. Never reference Section 8, DSS, or housing vouchers. NYC has additional classes.',
+  NJ: 'New Jersey: Among most comprehensive in US. Domestic partnership, civil union status, and source of income all protected.',
+  DC: 'Washington D.C.: Most expansive laws in US — political affiliation, personal appearance, student status all protected.',
+  MA: 'Massachusetts: Source of income protected statewide. Age, marital status, and military status all protected.',
+  IL: 'Illinois: Chicago has source of income protections. Military discharge type is protected statewide.',
+  WA: 'Washington: Use of service animals is a separately protected class. Seattle has source of income protections.',
+  VA: 'Virginia: Significantly expanded in 2020-2021. Source of income protected statewide.',
+  MN: 'Minnesota: Source of income protected statewide. Sexual orientation and age both protected.',
+  CT: 'Connecticut: Source of income protected statewide. Strong CHRO enforcement.',
+  OR: 'Oregon: Source of income protected statewide. Portland has especially strong enforcement.',
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const stateSelect = document.getElementById('f-state');
+  const stateNote = document.getElementById('state-note');
+  if (stateSelect) {
+    stateSelect.addEventListener('change', () => {
+      const note = STATE_NOTES[stateSelect.value];
+      if (note) { stateNote.textContent = '⚑ ' + note; stateNote.style.display = 'block'; }
+      else { stateNote.style.display = 'none'; }
+    });
+  }
+});
+
 // ── GENERATE ──
 async function generate() {
   if (!licenseKey) { showGate(); return; }
@@ -1031,6 +1118,7 @@ async function generate() {
   const tone = document.getElementById('f-tone').value;
   const language = document.getElementById('f-language').value;
   const brandVoice = document.getElementById('f-voice').value.trim();
+  const state = document.getElementById('f-state').value;
 
   setLoading(true);
 
@@ -1038,7 +1126,7 @@ async function generate() {
     const res = await fetch(`${API}/api/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key: licenseKey, property, contentType: selectedType, tone, brandVoice, language })
+      body: JSON.stringify({ key: licenseKey, property, contentType: selectedType, tone, brandVoice, language, state: state || null })
     });
     if (!res.ok) {
       const err = await res.json();
@@ -1046,7 +1134,7 @@ async function generate() {
     }
     const data = await res.json();
     setLoading(false);
-    renderOutput(data.content, data.audit, selectedType, property.address, data.wasRewritten);
+    renderOutput(data.content, data.audit, selectedType, property.address, data.wasRewritten, data.stateName);
     currentContent = data.content;
 
     // Increment counter
@@ -1124,7 +1212,7 @@ function clearSteps() {
 }
 
 // ── RENDER OUTPUT ──
-function renderOutput(content, audit, type, address, wasRewritten) {
+function renderOutput(content, audit, type, address, wasRewritten, stateName) {
   document.getElementById('output-empty').style.display = 'none';
   document.getElementById('output-result').style.display = 'block';
 
@@ -1132,7 +1220,7 @@ function renderOutput(content, audit, type, address, wasRewritten) {
   const ring = document.getElementById('score-ring');
   ring.textContent = score;
   ring.className = 'score-ring ' + (score >= 85 ? 'ring-green' : score >= 70 ? 'ring-amber' : 'ring-red');
-  document.getElementById('score-title').textContent = `Compliance score: ${score}/100`;
+  document.getElementById('score-title').textContent = `Compliance score: ${score}/100${stateName ? ' — ' + stateName : ''}`;
   document.getElementById('score-summary').textContent = audit?.summary || '';
   const badge = document.getElementById('score-badge');
   badge.textContent = audit?.passed ? 'Passed' : 'Needs revision';
