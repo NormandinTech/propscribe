@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="PropScribe AI — Write every listing. Shield every deal. AI-powered real estate marketing with built-in Fair Housing compliance.">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PropScribe">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Open Graph -->
+<meta property="og:title" content="PropScribe AI">
+<meta property="og:description" content="AI-powered real estate marketing with Fair Housing compliance built in.">
+<meta property="og:type" content="website">
+
+<title>PropScribe AI</title>
+
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ── DESIGN TOKENS ── */
+:root {
+  --ink: #0d1117;
+  --ink-2: #161b22;
+  --ink-3: #21262d;
+  --surface: #0d1117;
+  --surface-2: #161b22;
+  --surface-3: #21262d;
+  --border: rgba(255,255,255,.08);
+  --border-2: rgba(255,255,255,.14);
+  --gold: #c8a96e;
+  --gold-2: #e8c98e;
+  --gold-dim: rgba(200,169,110,.15);
+  --gold-glow: rgba(200,169,110,.08);
+  --text: #e6edf3;
+  --text-2: #8b949e;
+  --text-3: #484f58;
+  --green: #3fb950;
+  --green-bg: rgba(63,185,80,.1);
+  --red: #f85149;
+  --red-bg: rgba(248,81,73,.1);
+  --amber: #e3b341;
+  --amber-bg: rgba(227,179,65,.1);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--surface);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: calc(var(--safe-top) + 0px) 20px 0;
+  background: rgba(13,17,23,.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.logo span { color: var(--gold); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-pill {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all .15s;
+  background: transparent;
+  font-family: var(--font-body);
+}
+.nav-pill:hover { border-color: var(--gold); color: var(--gold); }
+.nav-pill.active { background: var(--gold-dim); color: var(--gold); border-color: rgba(200,169,110,.3); }
+.nav-counter { font-size: 12px; color: var(--text-3); }
+
+/* ── GATE ── */
+#gate {
+  min-height: calc(100vh - 56px);
+  min-height: calc(100dvh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px calc(var(--safe-bottom) + 40px);
+}
+.gate-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}
+.gate-mark {
+  width: 56px; height: 56px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(200,169,110,.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+  font-size: 22px;
+}
+.gate-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.gate-sub { font-size: 14px; color: var(--text-2); margin-bottom: 32px; line-height: 1.6; }
+.gate-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.gate-input {
+  flex: 1;
+  padding: 11px 14px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s;
+  letter-spacing: .08em;
+}
+.gate-input:focus { border-color: var(--gold); }
+.gate-input::placeholder { color: var(--text-3); letter-spacing: 0; }
+.btn-gold {
+  padding: 11px 22px;
+  background: var(--gold);
+  color: #0d1117;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.btn-gold:hover { background: var(--gold-2); }
+.btn-gold:disabled { opacity: .5; cursor: not-allowed; }
+.gate-error { font-size: 12px; color: var(--red); margin-bottom: 16px; display: none; }
+.gate-demo { font-size: 12px; color: var(--text-3); margin-top: 20px; }
+.gate-demo code {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--gold);
+}
+.gate-link { font-size: 13px; color: var(--text-2); margin-top: 16px; }
+.gate-link a { color: var(--gold); text-decoration: none; }
+.gate-link a:hover { text-decoration: underline; }
+
+/* ── MAIN APP ── */
+#app { display: none; padding: 28px 20px calc(var(--safe-bottom) + 28px); max-width: 1100px; margin: 0 auto; }
+
+/* ── OFFLINE BANNER ── */
+#offline-banner {
+  background: var(--amber-bg);
+  border: 1px solid rgba(227,179,65,.3);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--amber);
+  margin-bottom: 20px;
+  display: none;
+}
+
+/* ── APP GRID ── */
+.app-grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+@media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } }
+
+/* ── FORM PANEL ── */
+.form-panel {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+.panel-head {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 6px;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus { border-color: rgba(200,169,110,.5); }
+.field input::placeholder,
+.field textarea::placeholder { color: var(--text-3); }
+.field textarea { resize: vertical; min-height: 72px; }
+.field select { cursor: pointer; }
+.field select option { background: var(--surface-3); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* ── CONTENT TYPE BUTTONS ── */
+.type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.type-btn {
+  padding: 9px 10px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: center;
+  transition: all .15s;
+  line-height: 1.3;
+}
+.type-btn:hover { border-color: rgba(200,169,110,.4); color: var(--gold); }
+.type-btn.active {
+  background: var(--gold-dim);
+  border-color: rgba(200,169,110,.4);
+  color: var(--gold);
+}
+
+/* ── ACCORDION — Advanced Settings ── */
+.accordion-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .15s;
+}
+.accordion-toggle:hover { color: var(--gold); }
+.accordion-toggle .arrow { transition: transform .2s; font-size: 10px; }
+.accordion-toggle.open .arrow { transform: rotate(90deg); }
+.accordion-body { display: none; padding-top: 12px; }
+.accordion-body.open { display: block; }
+
+/* ── GENERATE BUTTON ── */
+.gen-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--gold);
+  color: #0d1117;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: .01em;
+}
+.gen-btn:hover { background: var(--gold-2); }
+.gen-btn:active { transform: scale(.99); }
+.gen-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.gen-btn .spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(0,0,0,.3);
+  border-top-color: #0d1117;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: none;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── LIMIT NOTICE ── */
+.limit-notice {
+  background: var(--amber-bg);
+  border: 1px solid rgba(227,179,65,.3);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--amber);
+  margin-bottom: 16px;
+  display: none;
+}
+
+/* ── OUTPUT PANEL ── */
+.output-panel {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  min-height: 400px;
+  overflow: hidden;
+}
+
+/* Empty state */
+.output-empty {
+  padding: 72px 32px;
+  text-align: center;
+}
+.empty-icon {
+  width: 60px; height: 60px;
+  margin: 0 auto 20px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+}
+.empty-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.empty-sub { font-size: 14px; color: var(--text-2); }
+
+/* Loading state */
+.output-loading {
+  padding: 72px 32px;
+  text-align: center;
+  display: none;
+}
+.load-steps { list-style: none; margin-top: 20px; }
+.load-step {
+  font-size: 13px;
+  color: var(--text-3);
+  padding: 7px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: color .3s;
+}
+.load-step.active { color: var(--gold); }
+.load-step.done { color: var(--text-2); }
+.step-pip {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--text-3);
+  transition: background .3s;
+  flex-shrink: 0;
+}
+.load-step.active .step-pip { background: var(--gold); animation: pip-pulse 1s ease-in-out infinite; }
+.load-step.done .step-pip { background: var(--green); }
+@keyframes pip-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+
+/* Result state */
+.output-result { display: none; }
+
+.score-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.score-ring {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.ring-green { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+.ring-amber { border-color: var(--amber); color: var(--amber); background: var(--amber-bg); }
+.ring-red { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+.score-info { flex: 1; }
+.score-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.score-summary { font-size: 12px; color: var(--text-2); }
+.score-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.badge-pass { background: var(--green-bg); color: var(--green); }
+.badge-warn { background: var(--amber-bg); color: var(--amber); }
+.badge-fail { background: var(--red-bg); color: var(--red); }
+
+.content-section { padding: 22px 24px; border-bottom: 1px solid var(--border); }
+.content-meta {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rewrite-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+.content-body {
+  font-size: 15px;
+  line-height: 1.78;
+  color: var(--text);
+  white-space: pre-wrap;
+  font-family: var(--font-body);
+}
+.email-subject {
+  display: block;
+  font-size: 13px;
+  color: var(--text-2);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.flags-section { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+.flags-head {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 10px;
+}
+.flag-item {
+  display: flex;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  font-size: 13px;
+  align-items: flex-start;
+  line-height: 1.45;
+}
+.flag-ok { background: var(--green-bg); color: var(--green); }
+.flag-warn-item { background: var(--amber-bg); color: var(--amber); }
+.flag-bad { background: var(--red-bg); color: var(--red); }
+.flag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; margin-top: 5px; }
+.flag-text strong { display: block; font-weight: 500; }
+
+.actions-bar { padding: 14px 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-action {
+  padding: 8px 16px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-action:hover { border-color: var(--gold); color: var(--gold); }
+.btn-action.copied { background: var(--green-bg); color: var(--green); border-color: rgba(63,185,80,.3); }
+
+/* ── HISTORY ── */
+.history-wrap { margin-top: 20px; }
+.history-head {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 8px;
+}
+.history-item {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color .15s;
+}
+.history-item:hover { border-color: rgba(200,169,110,.3); }
+.h-score { font-size: 13px; font-weight: 500; width: 26px; flex-shrink: 0; }
+.h-meta { flex: 1; overflow: hidden; }
+.h-addr { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h-type { font-size: 11px; color: var(--text-3); }
+.h-time { font-size: 11px; color: var(--text-3); flex-shrink: 0; }
+
+/* ── INSTALL PROMPT ── */
+#install-prompt {
+  position: fixed;
+  bottom: calc(var(--safe-bottom) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: var(--surface-2);
+  border: 1px solid rgba(200,169,110,.3);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  max-width: 360px;
+  width: calc(100vw - 32px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  animation: slide-up .3s ease;
+}
+@keyframes slide-up { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+.install-icon { font-size: 22px; flex-shrink: 0; }
+.install-text { flex: 1; }
+.install-title { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+.install-sub { font-size: 12px; color: var(--text-2); }
+.install-btns { display: flex; gap: 6px; }
+.btn-install {
+  padding: 7px 14px;
+  background: var(--gold);
+  color: #0d1117;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.btn-dismiss {
+  padding: 7px 12px;
+  background: transparent;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">Prop<span>Scribe</span></div>
+    <div class="nav-right">
+      <span class="nav-counter" id="nav-counter"></span>
+      <button class="nav-pill" id="nav-key" onclick="showGate()">Activate</button>
+    </div>
+  </div>
+</nav>
+
+<!-- GATE SCREEN -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-mark">✦</div>
+    <h1 class="gate-title">PropScribe AI</h1>
+    <p class="gate-sub">Write every listing. Shield every deal.<br>Enter your license key to access the platform.</p>
+    <div class="gate-row">
+      <input class="gate-input" type="text" id="key-input" placeholder="PS-STARTER-XXXXXXXX" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="characters">
+      <button class="btn-gold" id="activate-btn" onclick="activateKey()">Activate</button>
+    </div>
+    <div class="gate-error" id="gate-error">Invalid key. Check your purchase confirmation email.</div>
+    <p class="gate-link">No key? <a href="https://propscribe.gumroad.com" target="_blank">Get PropScribe →</a></p>
+    <p class="gate-demo">Demo key: <code>PS-DEMO-00000000</code></p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div id="offline-banner">You are offline. Complete your form and generate when reconnected — or your draft will sync automatically.</div>
+
+  <div class="app-grid">
+    <!-- FORM -->
+    <div>
+      <div class="form-panel">
+        <div class="panel-head">Property details</div>
+
+        <div class="limit-notice" id="limit-notice"></div>
+
+        <div class="field">
+          <label>Address / Property identifier</label>
+          <input type="text" id="f-address" placeholder="742 Evergreen Terrace, Springfield">
+        </div>
+
+        <div class="field-row-2">
+          <div class="field">
+            <label>List price</label>
+            <input type="text" id="f-price" placeholder="$485,000">
+          </div>
+          <div class="field">
+            <label>Property type</label>
+            <select id="f-type">
+              <option value="Single family home">Single family</option>
+              <option value="Condominium">Condo</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Multi-family">Multi-family</option>
+              <option value="Luxury estate">Luxury estate</option>
+              <option value="Land">Land</option>
+              <option value="Commercial">Commercial</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Beds / Baths / Sq ft</label>
+          <div class="field-row">
+            <input type="number" id="f-beds" placeholder="4" min="0">
+            <input type="number" id="f-baths" placeholder="2.5" step=".5" min="0">
+            <input type="number" id="f-sqft" placeholder="2,100" min="0">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Key features (be specific)</label>
+          <textarea id="f-features" rows="3" placeholder="Updated chef's kitchen, quartz counters, hardwood throughout, covered patio, 2-car garage, new roof 2023..."></textarea>
+        </div>
+
+        <!-- ADVANCED SETTINGS ACCORDION -->
+        <button class="accordion-toggle" id="adv-toggle" onclick="toggleAdvanced()">
+          <span class="arrow">▶</span> Advanced settings
+        </button>
+        <div class="accordion-body" id="adv-body">
+          <div class="field" style="margin-top:12px">
+            <label>Year built</label>
+            <input type="number" id="f-year" placeholder="1998" min="1800" max="2026">
+          </div>
+          <div class="field">
+            <label>Tone</label>
+            <select id="f-tone">
+              <option value="professional and warm">Professional &amp; warm</option>
+              <option value="luxury and aspirational">Luxury / aspirational</option>
+              <option value="concise and MLS-ready">Concise / MLS-ready</option>
+              <option value="casual and conversational">Casual / social media</option>
+              <option value="investor-focused">Investor-focused</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Output language</label>
+            <select id="f-language">
+              <option value="en">English</option>
+              <option value="Spanish">Spanish (Español)</option>
+              <option value="Mandarin Chinese">Mandarin (普通话)</option>
+              <option value="Portuguese">Portuguese (Português)</option>
+              <option value="Vietnamese">Vietnamese (Tiếng Việt)</option>
+              <option value="French">French (Français)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Your writing samples (brand voice)</label>
+            <textarea id="f-voice" rows="3" placeholder="Paste 2–3 examples of your previous listing descriptions here. PropScribe will match your exact writing style..."></textarea>
+          </div>
+        </div>
+
+        <!-- CONTENT TYPE -->
+        <div class="field" style="margin-top:16px">
+          <label>Content type</label>
+          <div class="type-grid" id="type-grid">
+            <button class="type-btn active" data-type="listing_description" onclick="setType(this)">Listing description</button>
+            <button class="type-btn" data-type="instagram" onclick="setType(this)">Instagram caption</button>
+            <button class="type-btn" data-type="email_campaign" onclick="setType(this)">Email campaign</button>
+            <button class="type-btn" data-type="open_house" onclick="setType(this)">Open house copy</button>
+            <button class="type-btn" data-type="buyer_letter" onclick="setType(this)">Buyer offer letter</button>
+            <button class="type-btn" data-type="cma_summary" onclick="setType(this)">CMA summary</button>
+          </div>
+        </div>
+
+        <button class="gen-btn" id="gen-btn" onclick="generate()">
+          <div class="spinner" id="btn-spinner"></div>
+          <span id="btn-label">Generate with compliance check</span>
+        </button>
+      </div>
+
+      <!-- HISTORY -->
+      <div class="history-wrap" id="history-wrap" style="display:none">
+        <div class="history-head">Recent generations</div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-panel" id="output-panel">
+      <div class="output-empty" id="output-empty">
+        <div class="empty-icon">✦</div>
+        <div class="empty-title">Ready to generate</div>
+        <div class="empty-sub">Fill in property details and click generate.<br>Every output includes a Fair Housing compliance audit.</div>
+      </div>
+
+      <div class="output-loading" id="output-loading">
+        <div class="empty-icon">✦</div>
+        <ul class="load-steps">
+          <li class="load-step" id="step-1"><div class="step-pip"></div>Analyzing property details...</li>
+          <li class="load-step" id="step-2"><div class="step-pip"></div>Writing marketing copy...</li>
+          <li class="load-step" id="step-3"><div class="step-pip"></div>Running Fair Housing compliance audit...</li>
+          <li class="load-step" id="step-4"><div class="step-pip"></div>Finalizing output...</li>
+        </ul>
+      </div>
+
+      <div class="output-result" id="output-result">
+        <!-- Score header -->
+        <div class="score-header">
+          <div class="score-ring" id="score-ring">—</div>
+          <div class="score-info">
+            <div class="score-title" id="score-title">Compliance score</div>
+            <div class="score-summary" id="score-summary"></div>
+          </div>
+          <span class="score-badge" id="score-badge"></span>
+        </div>
+        <!-- Generated content -->
+        <div class="content-section">
+          <div class="content-meta">
+            <span id="content-label">Listing description</span>
+            <span class="rewrite-badge" id="rewrite-badge" style="display:none">Auto-corrected</span>
+          </div>
+          <div class="content-body" id="content-body"></div>
+        </div>
+        <!-- Compliance flags -->
+        <div class="flags-section">
+          <div class="flags-head">Compliance review</div>
+          <div id="flags-list"></div>
+        </div>
+        <!-- Actions -->
+        <div class="actions-bar">
+          <button class="btn-action" id="copy-btn" onclick="copyContent()">Copy</button>
+          <button class="btn-action" onclick="generate()">Regenerate</button>
+          <button class="btn-action" onclick="downloadContent()">Download .txt</button>
+          <button class="btn-action" onclick="clearOutput()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PWA INSTALL PROMPT -->
+<div id="install-prompt">
+  <div class="install-icon">📲</div>
+  <div class="install-text">
+    <div class="install-title">Add PropScribe to your home screen</div>
+    <div class="install-sub">Access instantly, works offline</div>
+  </div>
+  <div class="install-btns">
+    <button class="btn-install" id="install-btn">Install</button>
+    <button class="btn-dismiss" onclick="dismissInstall()">Later</button>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──
+const API = 'http://165.232.147.17:3001'; // Update after Railway deploy
+const MONTH_KEY = `ps_gen_${new Date().getFullYear()}_${new Date().getMonth()}`;
+const TYPE_LABELS = {
+  listing_description: 'Listing description',
+  instagram: 'Instagram caption',
+  email_campaign: 'Email campaign',
+  open_house: 'Open house copy',
+  buyer_letter: 'Buyer offer letter',
+  cma_summary: 'CMA summary'
+};
+
+// ── STATE ──
+let licenseKey = localStorage.getItem('ps_key') || '';
+let licenseData = safeJSON(localStorage.getItem('ps_key_data'));
+let selectedType = 'listing_description';
+let genCount = parseInt(localStorage.getItem(MONTH_KEY) || '0');
+let history = safeJSON(localStorage.getItem('ps_history')) || [];
+let stepTimers = [];
+let deferredInstallPrompt = null;
+let currentContent = '';
+
+function safeJSON(s) { try { return JSON.parse(s); } catch { return null; } }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  if (licenseKey && licenseData) showApp();
+  registerSW();
+  handleOffline();
+  handleInstallPrompt();
+  checkURLParams();
+});
+
+// ── SERVICE WORKER ──
+function registerSW() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => {
+        navigator.serviceWorker.addEventListener('message', e => {
+          if (e.data?.type === 'DRAFT_SYNCED') {
+            showToast('Offline draft synced successfully.');
+          }
+        });
+      })
+      .catch(err => console.warn('SW registration failed:', err));
+  }
+}
+
+// ── OFFLINE DETECTION ──
+function handleOffline() {
+  const banner = document.getElementById('offline-banner');
+  window.addEventListener('offline', () => { banner.style.display = 'block'; });
+  window.addEventListener('online', () => {
+    banner.style.display = 'none';
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+      navigator.serviceWorker.ready.then(reg => reg.sync.register('propscribe-generate'));
+    }
+  });
+  if (!navigator.onLine) banner.style.display = 'block';
+}
+
+// ── PWA INSTALL PROMPT ──
+function handleInstallPrompt() {
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (!localStorage.getItem('ps_install_dismissed')) {
+      setTimeout(() => {
+        document.getElementById('install-prompt').style.display = 'flex';
+      }, 5000);
+    }
+  });
+  document.getElementById('install-btn').onclick = () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.then(() => {
+        deferredInstallPrompt = null;
+        document.getElementById('install-prompt').style.display = 'none';
+      });
+    }
+  };
+}
+
+function dismissInstall() {
+  document.getElementById('install-prompt').style.display = 'none';
+  localStorage.setItem('ps_install_dismissed', '1');
+}
+
+// ── URL PARAMS (shortcuts) ──
+function checkURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get('mode');
+  if (mode && TYPE_LABELS[mode]) {
+    const btn = document.querySelector(`[data-type="${mode}"]`);
+    if (btn) setType(btn);
+  }
+}
+
+// ── GATE ──
+document.getElementById('key-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') activateKey();
+});
+
+async function activateKey() {
+  const raw = document.getElementById('key-input').value.trim().toUpperCase();
+  const errEl = document.getElementById('gate-error');
+  const btn = document.getElementById('activate-btn');
+  errEl.style.display = 'none';
+  btn.textContent = 'Checking...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API}/api/validate-key`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: raw })
+    });
+    const data = await res.json();
+    if (!data.valid) throw new Error('invalid');
+    licenseKey = raw;
+    licenseData = data;
+    localStorage.setItem('ps_key', raw);
+    localStorage.setItem('ps_key_data', JSON.stringify(data));
+    showApp();
+  } catch (err) {
+    if (err.message !== 'invalid') {
+      errEl.textContent = 'Could not connect to server. Check your connection and try again.';
+    } else {
+      errEl.textContent = 'Invalid key. Check your purchase confirmation email.';
+    }
+    errEl.style.display = 'block';
+    btn.textContent = 'Activate';
+    btn.disabled = false;
+  }
+}
+
+function showGate() {
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  updateNavState();
+  updateLimitNotice();
+  renderHistory();
+}
+
+function updateNavState() {
+  const pill = document.getElementById('nav-key');
+  const counter = document.getElementById('nav-counter');
+  const tier = licenseData?.tier || 'starter';
+  pill.textContent = tier.charAt(0).toUpperCase() + tier.slice(1) + ' plan';
+  pill.classList.add('active');
+  if (tier === 'starter') {
+    counter.textContent = `${genCount}/100 this month`;
+  }
+}
+
+function updateLimitNotice() {
+  if (!licenseData || licenseData.tier !== 'starter') return;
+  const left = 100 - genCount;
+  const notice = document.getElementById('limit-notice');
+  if (left <= 15 && left > 0) {
+    notice.textContent = `${left} generation${left === 1 ? '' : 's'} remaining this month. Upgrade to Pro for unlimited access.`;
+    notice.style.display = 'block';
+  } else if (left <= 0) {
+    notice.textContent = `Monthly limit reached. Upgrade to Pro to continue generating content.`;
+    notice.style.display = 'block';
+  }
+}
+
+// ── ADVANCED TOGGLE ──
+function toggleAdvanced() {
+  const toggle = document.getElementById('adv-toggle');
+  const body = document.getElementById('adv-body');
+  toggle.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ── CONTENT TYPE ──
+function setType(btn) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedType = btn.dataset.type;
+}
+
+// ── GENERATE ──
+async function generate() {
+  if (!licenseKey) { showGate(); return; }
+  if (licenseData?.tier === 'starter' && genCount >= 100) {
+    alert('Monthly generation limit reached. Please upgrade to Pro for unlimited access.');
+    return;
+  }
+
+  if (!navigator.onLine) {
+    alert('You are offline. Your draft has been saved and will generate automatically when you reconnect.');
+    return;
+  }
+
+  const property = {
+    address: document.getElementById('f-address').value.trim() || 'Address not provided',
+    price: document.getElementById('f-price').value.trim(),
+    type: document.getElementById('f-type').value,
+    beds: document.getElementById('f-beds').value,
+    baths: document.getElementById('f-baths').value,
+    sqft: document.getElementById('f-sqft').value,
+    yearBuilt: document.getElementById('f-year').value,
+    features: document.getElementById('f-features').value.trim() || 'No features provided'
+  };
+  const tone = document.getElementById('f-tone').value;
+  const language = document.getElementById('f-language').value;
+  const brandVoice = document.getElementById('f-voice').value.trim();
+
+  setLoading(true);
+
+  try {
+    const res = await fetch(`${API}/api/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: licenseKey, property, contentType: selectedType, tone, brandVoice, language })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || `Server error ${res.status}`);
+    }
+    const data = await res.json();
+    setLoading(false);
+    renderOutput(data.content, data.audit, selectedType, property.address, data.wasRewritten);
+    currentContent = data.content;
+
+    // Increment counter
+    genCount++;
+    localStorage.setItem(MONTH_KEY, genCount);
+    document.getElementById('nav-counter').textContent = `${genCount}/100 this month`;
+    updateLimitNotice();
+
+    // Save to history
+    const entry = {
+      id: Date.now(),
+      address: property.address,
+      type: selectedType,
+      score: data.audit?.score || 0,
+      content: data.content,
+      audit: data.audit,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    history.unshift(entry);
+    if (history.length > 25) history.pop();
+    localStorage.setItem('ps_history', JSON.stringify(history));
+    renderHistory();
+
+  } catch (err) {
+    setLoading(false);
+    showError(`Generation failed: ${err.message}`);
+  }
+}
+
+// ── LOADING STATE ──
+function setLoading(on) {
+  const btn = document.getElementById('gen-btn');
+  const spinner = document.getElementById('btn-spinner');
+  const label = document.getElementById('btn-label');
+  const empty = document.getElementById('output-empty');
+  const loading = document.getElementById('output-loading');
+  const result = document.getElementById('output-result');
+
+  btn.disabled = on;
+  spinner.style.display = on ? 'block' : 'none';
+  label.textContent = on ? 'Generating...' : 'Generate with compliance check';
+
+  if (on) {
+    empty.style.display = 'none';
+    result.style.display = 'none';
+    loading.style.display = 'block';
+    animateSteps();
+  } else {
+    loading.style.display = 'none';
+    clearSteps();
+  }
+}
+
+function animateSteps() {
+  clearSteps();
+  const steps = ['step-1','step-2','step-3','step-4'];
+  steps.forEach((id, i) => {
+    stepTimers.push(setTimeout(() => {
+      if (i > 0) {
+        const prev = document.getElementById(steps[i-1]);
+        prev.classList.remove('active');
+        prev.classList.add('done');
+      }
+      document.getElementById(id).classList.add('active');
+    }, i * 1800));
+  });
+}
+
+function clearSteps() {
+  stepTimers.forEach(clearTimeout);
+  stepTimers = [];
+  ['step-1','step-2','step-3','step-4'].forEach(id => {
+    document.getElementById(id).classList.remove('active','done');
+  });
+}
+
+// ── RENDER OUTPUT ──
+function renderOutput(content, audit, type, address, wasRewritten) {
+  document.getElementById('output-empty').style.display = 'none';
+  document.getElementById('output-result').style.display = 'block';
+
+  const score = audit?.score || 0;
+  const ring = document.getElementById('score-ring');
+  ring.textContent = score;
+  ring.className = 'score-ring ' + (score >= 85 ? 'ring-green' : score >= 70 ? 'ring-amber' : 'ring-red');
+  document.getElementById('score-title').textContent = `Compliance score: ${score}/100`;
+  document.getElementById('score-summary').textContent = audit?.summary || '';
+  const badge = document.getElementById('score-badge');
+  badge.textContent = audit?.passed ? 'Passed' : 'Needs revision';
+  badge.className = 'score-badge ' + (audit?.passed ? 'badge-pass' : score >= 70 ? 'badge-warn' : 'badge-fail');
+
+  document.getElementById('content-label').textContent = TYPE_LABELS[type] || type;
+  const rewriteBadge = document.getElementById('rewrite-badge');
+  rewriteBadge.style.display = wasRewritten ? 'inline' : 'none';
+
+  const bodyEl = document.getElementById('content-body');
+  if (type === 'email_campaign' && content.startsWith('Subject:')) {
+    const lines = content.split('\n');
+    const subj = lines[0].replace('Subject:', '').trim();
+    const body = lines.slice(2).join('\n').trim();
+    bodyEl.innerHTML = `<span class="email-subject">Subject: ${esc(subj)}</span>${esc(body)}`;
+  } else {
+    bodyEl.textContent = content;
+  }
+
+  const flagsEl = document.getElementById('flags-list');
+  flagsEl.innerHTML = '';
+  if (!audit?.flags?.length) {
+    ['No protected class language detected', 'No demographic proxy terms found', 'No exclusionary steering detected'].forEach(msg => {
+      flagsEl.innerHTML += `<div class="flag-item flag-ok"><div class="flag-dot"></div><div class="flag-text">${msg}</div></div>`;
+    });
+  } else {
+    audit.flags.forEach(f => {
+      const cls = f.severity === 'violation' ? 'flag-bad' : 'flag-warn-item';
+      flagsEl.innerHTML += `<div class="flag-item ${cls}"><div class="flag-dot"></div><div class="flag-text"><strong>${esc(f.category)}: "${esc(f.phrase)}"</strong>${esc(f.issue)}${f.suggestion ? ` → Try: "${esc(f.suggestion)}"` : ''}</div></div>`;
+    });
+  }
+}
+
+// ── ACTIONS ──
+function copyContent() {
+  const text = document.getElementById('content-body').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
+  });
+}
+
+function downloadContent() {
+  const text = document.getElementById('content-body').innerText;
+  const addr = document.getElementById('f-address').value.trim() || 'listing';
+  const safe = addr.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `propscribe_${selectedType}_${safe}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function clearOutput() {
+  document.getElementById('output-result').style.display = 'none';
+  document.getElementById('output-empty').style.display = 'block';
+  currentContent = '';
+}
+
+// ── HISTORY ──
+function renderHistory() {
+  if (!history.length) return;
+  const wrap = document.getElementById('history-wrap');
+  const list = document.getElementById('history-list');
+  wrap.style.display = 'block';
+  list.innerHTML = history.slice(0, 6).map(h => `
+    <div class="history-item" onclick="restoreHistory(${h.id})">
+      <span class="h-score" style="color:${h.score>=85?'var(--green)':h.score>=70?'var(--amber)':'var(--red)'}">${h.score}</span>
+      <div class="h-meta">
+        <div class="h-addr">${esc(h.address)}</div>
+        <div class="h-type">${TYPE_LABELS[h.type] || h.type}</div>
+      </div>
+      <span class="h-time">${h.time}</span>
+    </div>
+  `).join('');
+}
+
+function restoreHistory(id) {
+  const entry = history.find(h => h.id === id);
+  if (entry) {
+    renderOutput(entry.content, entry.audit, entry.type, entry.address, false);
+    currentContent = entry.content;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// ── UTILS ──
+function showError(msg) {
+  const empty = document.getElementById('output-empty');
+  empty.style.display = 'block';
+  empty.querySelector('.empty-title').textContent = 'Generation failed';
+  empty.querySelector('.empty-sub').textContent = msg;
+  setTimeout(() => {
+    empty.querySelector('.empty-title').textContent = 'Ready to generate';
+    empty.querySelector('.empty-sub').textContent = 'Fill in property details and click generate.\nEvery output includes a Fair Housing compliance audit.';
+  }, 6000);
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:calc(var(--safe-bottom)+80px);left:50%;transform:translateX(-50%);background:var(--surface-2);border:1px solid var(--border-2);border-radius:99px;padding:8px 20px;font-size:13px;color:var(--text-2);z-index:300;white-space:nowrap;';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+</script>
+</body>
+</html>
